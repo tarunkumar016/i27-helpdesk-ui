@@ -11,6 +11,8 @@ pipeline {
         REGISTRY_URL = "docker.io"
         // later u changed to jfrog ====> jfrog.hsbc.com
         IMAGE_REPOSITORY = "devopswithcloudhub/i27-helpdesk-ui"
+        // calling my docker creds into a variable
+        REGISTRY_CREDENTIALS_ID = credentials('docker-credentials')
 
         // docker.io/devopswithcloudhub/i27-helpdesk-ui:tagname
         // docker.io/devopswithcloudhub/i27-helpdesk-ui:84285da
@@ -62,6 +64,19 @@ pipeline {
             steps {
                 echo "Building the image"
                 sh "docker build -t  ${env.IMAGE_NAME}:${GIT_COMMIT} --build-arg NEXT_PUBLIC_API_BASE_URL=${env.NEXT_PUBLIC_API_BASE_URL} ."
+            }
+        }
+        stage ('Push Image') {
+            when {
+                expression {
+                    return params.BUILD
+                }
+            }
+            steps {
+                echo "********************************* Docker Login *****************************"
+                sh "docker login -u ${env.REGISTRY_CREDENTIALS_ID_USR} -p ${env.REGISTRY_CREDENTIALS_ID_PSW} ${env.REGISTRY_URL}"
+                echo "********************************* Docker Push *****************************"
+                sh "docker push ${env.IMAGE_NAME}:${GIT_COMMIT}"
             }
         }
     }
