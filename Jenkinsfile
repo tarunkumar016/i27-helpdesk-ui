@@ -39,7 +39,7 @@ pipeline {
                     case 'stage':
                         env.NEXT_PUBLIC_API_BASE_URL = 'http://stage-gateway.i27helpdesk.in'
                         break
-                    case 'prod'
+                    case 'prod':
                         env.NEXT_PUBLIC_API_BASE_URL = 'http://gateway.i27helpdesk.in'
                         break
                 }
