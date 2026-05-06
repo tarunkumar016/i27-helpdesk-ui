@@ -15,6 +15,7 @@ pipeline {
     stages {
         stage ('Prepare Tag') {
             steps {
+                script {
                 // Construct a full image with complete image name 
                 env.IMAGE_NAME = env.REGISTRY_URL + "/" + env.IMAGE_REPOSITORY 
 
@@ -23,6 +24,8 @@ pipeline {
                 echo "Using Image Tag: ${GIT_COMMIT}"
                 echo "Full Image is: ${env.IMAGE_NAME}:${GIT_COMMIT}"
                 //docker.io/devopswithcloudhub/i27-helpdesk-ui:COMMIT_ID
+                }
+
             }
         }
         // stage('Build Docker Image') {
