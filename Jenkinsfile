@@ -52,7 +52,31 @@ pipeline {
                 echo "Full Image is: ${env.IMAGE_NAME}:${GIT_COMMIT}"
                 //docker.io/devopswithcloudhub/i27-helpdesk-ui:COMMIT_ID
                 }
+            }
+        }
+        stage ('SonarQube Analysis'){
+            when {
+                expression {
+                    return params.BUILD
+                }
+            }
+            steps {
+                script {
+                   def scannerHome = tool 'SonarQubeScanner'
+                   SonarQube
+                   withSonarQubeEnv('SonarQube'){
+                    sh "${scannerHome}/bin/sonar-scanner"
+                   }
+                }
 
+
+                // sonar-scanner \
+                //     -Dsonar.host.url=http://SONARQUBE_PUBLIC_IP:9000 \
+                //     -Dsonar.login=<PASTE_YOUR_TOKEN_HERE>
+                    // we need to have sonarqube server 
+                    // install SonarQube Scanner plugin in jenkins
+                    // we need to have sonar-scanner installed on slave or we can use tools section in jenkins to install sonar-scanner and call it here
+                    // we need to have sonar-scanner plugin installed on jenkins 
             }
         }
         stage('Build Docker Image') {
