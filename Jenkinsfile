@@ -158,7 +158,9 @@ pipeline {
                     sh '''
                         echo "******************* Deploying to Dev Environment *********************"
                         echo "Deploying into this namespace: ${NAMESPACE}"
-                        kubectl get pods -n ${NAMESPACE}"
+                        kubectl get pods -n ${NAMESPACE}
+                        kubectl apply -f k8s/
+
                     '''
                 }
             }
