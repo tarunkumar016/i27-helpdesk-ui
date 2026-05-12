@@ -149,7 +149,7 @@ pipeline {
             // Create a reusable code for all environments - pending
             when {
                 expression {
-                    return params.BUILD && retrun TARGET_ENV == 'dev'
+                    return params.BUILD && params.TARGET_ENV == 'dev'
                 }
             }
             steps {
