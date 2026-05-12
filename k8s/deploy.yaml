@@ -18,7 +18,7 @@ spec:
           image: ${IMAGE_NAME}:${IMAGE_TAG}
           ports:
             - containerPort: 3000
-          resource:
+          resources:
             limits:
               memory: "256Mi"
               cpu: "200m"
