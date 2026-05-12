@@ -141,23 +141,28 @@ pipeline {
                 }
             }
         }
-        // stage ('DeployToDevEnvironment'){
-        //     // GKE Cluster should be available - done
-        //     // kubectl should be availble - done
-        //     // slave should be having config file to connect to our api server - done 
-        //     // Create k8s manifests file and make them apply into our namespaces
-        //     // Create a reusable code for all environments 
-        //     when {
-        //         expression {
-        //             return params.BUILD
-        //         }
-        //     }
-        //     steps {
-        //         script {
-
-        //         }
-        //     }
-        // }
+        stage ('DeployToDevEnvironment'){
+            // GKE Cluster should be available - done
+            // kubectl should be availble - done
+            // slave should be having config file to connect to our api server - done 
+            // Create k8s manifests file and make them apply into our namespaces - Pending 
+            // Create a reusable code for all environments - pending
+            when {
+                expression {
+                    return params.BUILD && retrun TARGET_ENV == 'dev'
+                }
+            }
+            steps {
+                script {
+                    env.NAMESPACE = 'i27-helpdesk-dev'
+                    sh '''
+                        echo "******************* Deploying to Dev Environment *********************"
+                        echo "Deploying into this namespace: ${NAMESPACE}"
+                        kubectl get pods -n ${NAMESPACE}"
+                    '''
+                }
+            }
+        }
     }
     post {
         always {
