@@ -1,6 +1,6 @@
 def deployToEnv(String namespace, String envLabel) {
     env.NAMESPACE = namespace
-    sh '''
+    sh """
         echo "******************* Deploying to ${envLabel} Environment *********************"
         echo "Deploying into this namespace: ${NAMESPACE}"
         kubectl get pods -n ${NAMESPACE}
@@ -11,16 +11,16 @@ def deployToEnv(String namespace, String envLabel) {
         echo "Applying k8s manifests in ${envLabel} namespace"
         kubectl apply -f k8s/
         echo "Deployment to ${envLabel} namespace is completed"
-    '''
+    """
 
 }
 def gkeAuth(String clusterName, String zone, String projectId){
-    sh '''
+    sh """
         echo "******************************* Authenticating to GKE **************************"
         gcloud container clusters get-credentials ${clusterName} --zone ${zone} --project ${projectId}
         echo "******************** Validating the Cluster access *********************"
         kubectl get nodes
-    '''
+    """
 }
 pipeline {
     agent {
