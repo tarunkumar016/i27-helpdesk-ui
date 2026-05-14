@@ -25,7 +25,7 @@ def gkeAuth(String clusterName, String zone, String projectId){
 pipeline {
     agent {
         // label 'my-slave'
-        label 'k8s-slave'
+        label 'k8s-slave-jenkisn-'
     }
     parameters {
         booleanParam(name: 'BUILD', defaultValue: true, description: "Run buid and push image")
