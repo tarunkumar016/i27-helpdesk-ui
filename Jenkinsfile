@@ -147,7 +147,7 @@ pipeline {
             }
             steps {
                 echo "Building the image"
-                sh "docker build -t  ${env.IMAGE_NAME}:${GIT_COMMIT} --build-arg NEXT_PUBLIC_API_BASE_URL=${env.NEXT_PUBLIC_API_BASE_URL} ."
+                sh "docker build --no-cache -t  ${env.IMAGE_NAME}:${GIT_COMMIT} --build-arg NEXT_PUBLIC_API_BASE_URL=${env.NEXT_PUBLIC_API_BASE_URL} ."
             }
         }
         stage ('Push Image') {
@@ -247,6 +247,9 @@ pipeline {
 
             }
             steps {
+                timeout(time: 300, unit: 'SECONDS') {
+                    input message: 'Approve Deployment to production ???', submitter: 'sivasre,phanisekhar'
+                }
                 script {
                     gkeAuth(env.PROD_CLUSTER_NAME, env.PROD_CLUSTER_ZONE, env.PROD_PROJECT_ID)
                     deployToEnv('i27-helpdesk-prod', 'Prod')
