@@ -1,5 +1,5 @@
 def deployToEnv(String namespace, String envLabel) {
-    env.NAMESPACE = namespace
+    env.NAMESPACE = namespac
     sh """
         echo "******************* Deploying to ${envLabel} Environment *********************"
         echo "Deploying into this namespace: ${NAMESPACE}"
