@@ -3,12 +3,12 @@ pipeline {
         label 'k8s-slave-jenkisn-'
     }
     environment {
-        DOCKER_URL = docker.io
-        DOCKER_REPOSITORY = 24tarunkumar215/i27-helpdesk-ui
+        DOCKER_URL = "docker.io"
+        DOCKER_REPOSITORY = "24tarunkumar215/i27-helpdesk-ui"
         TAG = GIT_COMMIT 
     }
     stages {
-        stage {
+        stage ('DOCKER TAG STAGE') {
             steps {
                 echo "docker website ${env.DOCKER_URL}"
                 echo "docker repo ${env.DOCKER_URL}"
