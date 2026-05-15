@@ -5,7 +5,7 @@ pipeline {
     environment {
         DOCKER_URL = "docker.io"
         DOCKER_REPOSITORY = "24tarunkumar215/i27-helpdesk-ui"
-        TAG = GIT_COMMIT 
+        TAG = "${env.GIT_COMMIT}" 
     }
     stages {
         stage ('DOCKER TAG STAGE') {
