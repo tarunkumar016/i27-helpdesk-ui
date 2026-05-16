@@ -22,7 +22,7 @@ pipeline {
         stage('dockerstage') {
             when {
                 expression {
-                    ${params.DEPLOY_ENV} == 'prod'
+                    params.DEPLOY_ENV == 'prod'
                 }
             }
             steps {
