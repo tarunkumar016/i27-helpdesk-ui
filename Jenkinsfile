@@ -2,6 +2,7 @@ pipeline {
     agent {
         label 'k8s-slave-jenkisn-'
     }
+    parameters { string(name: 'DEPLOY_ENV', defaultValue: 'staging', description: '') }.
     environment {
         DOCKER_URL = "docker.io"
         DOCKER_REPOSITORY = "24tarunkumar215/i27-helpdesk-ui"
