@@ -20,6 +20,11 @@ pipeline {
             }
         }    
         stage('dockerstage') {
+            when {
+                expression {
+                    ${params.DEPLOY_ENV} == 'prod'
+                }
+            }
             steps {
                 script {
                     sh 'docker --version'
