@@ -13,11 +13,11 @@ pipeline {
     stages {
         stage ('DOCKER TAG STAGE') {
             steps {
-                echo "{params.DEPLOY_ENV}"
-                echo "docker website ${env.DOCKER_URL}"
-                echo "docker repo ${env.DOCKER_URL}"
-                echo "docker commit ${TAG}"
-            }
+                echo "${params.DEPLOY_ENV}"
+            //     echo "docker website ${env.DOCKER_URL}"
+            //     echo "docker repo ${env.DOCKER_URL}"
+            //     echo "docker commit ${TAG}"
+            // }
         }
         stage('dockerstage') {
             steps {
