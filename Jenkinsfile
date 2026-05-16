@@ -17,8 +17,7 @@ pipeline {
             //     echo "docker website ${env.DOCKER_URL}"
             //     echo "docker repo ${env.DOCKER_URL}"
             //     echo "docker commit ${TAG}"
-            // }
-        }
+            }
         stage('dockerstage') {
             steps {
                 script {
