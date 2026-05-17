@@ -6,7 +6,7 @@ pipeline {
         DOCKER_REPOSITORY = '24tarunkumar215/helpdeskui'
         DOCKER_REGISTRY = 'docker.io'
         
-        DOCKER_CREDS = credentials('docker-creds-id') 
+        DOCKER_CREDS = credentials('dockerpushpassword') 
     }
     stages {
         stage ('Image-build-stage') {
