@@ -5,13 +5,14 @@ pipeline {
     environment {
         DOCKER_REPOSITORY = '24tarunkumar215/helpdeskui'
         DOCKER_REGISTRY = 'docker.io'
-        IMAGE_NAME = env.DOCKER_REGISTRY + "/" + env.DOCKER_REPOSITORY
+        
         DOCKER_CREDS = credentials('docker-creds-id') 
     }
     stages {
         stage ('Image-build-stage') {
             steps {
                 script {
+                    env.IMAGE_NAME = env.DOCKER_REGISTRY + "/" + env.DOCKER_REPOSITORY
                     sh "docker build -t ${env.IMAGE_NAME}:${env.GIT_COMMIT} ."
 
                 }
