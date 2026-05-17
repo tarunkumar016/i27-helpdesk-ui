@@ -14,6 +14,7 @@ pipeline {
                 script {
                     env.IMAGE_NAME = env.DOCKER_REGISTRY + "/" + env.DOCKER_REPOSITORY
                     sh "docker build -t ${env.IMAGE_NAME}:${env.GIT_COMMIT} ."
+                    sh "docker run -d -p 3000:3000 ${env.IMAGE_NAME}:${env.GIT_COMMIT}
 
                 }
             }
