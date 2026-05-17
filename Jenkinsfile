@@ -1,37 +1,50 @@
 pipeline {
     agent {
-        label 'k8s-slave-jenkisn-'
+        label "nodename"
     }
-    parameters { 
-        string(name: 'DEPLOY_ENV', defaultValue: 'staging', description: '')
-    }    
     environment {
-        DOCKER_URL = "docker.io"
-        DOCKER_REPOSITORY = "24tarunkumar215/i27-helpdesk-ui"
-        TAG = "${env.GIT_COMMIT}" 
+        DOCKER_REPOSITORY = '24tarunkumar215/helpdeskui'
+        DOCKER_REGISTRY = 'docker.io'
+        IMAGE_NAME = env.DOCKER_REGISTRY + "/" + env.DOCKER_REPOSITORY
+        DOCKER_CREDS = credentials('docker-creds-id') 
     }
     stages {
-        stage ('DOCKER TAG STAGE') {
-            steps {
-                echo "${params.DEPLOY_ENV}"
-            //     echo "docker website ${env.DOCKER_URL}"
-            //     echo "docker repo ${env.DOCKER_URL}"
-            //     echo "docker commit ${TAG}"
-            }
-        }    
-        stage('dockerstage') {
-        
-            when {
-                equals expected: 'prod', actual: params.DEPLOY_ENV
-            }
+        stage ('Image-build-stage') {
             steps {
                 script {
-                    sh 'docker --version'
-                    // sh 'docker build -t tarunnode:v2 .'
-                    // sh 'docker run -d -p 3000:3000 tarunnode:v2'
+                    sh "docker build -t ${env.IMAGE_NAME}:${env.GIT_COMMIT} ."
 
                 }
             }
+        }
+        stage ('DockerLogin Stage') {
+            steps {
+                script{
+                    sh "docker login -u ${env.DOCKER_CREDS_USR} -p ${env.DOCKER_CREDS_PSW}"
+                }
+
+            }
+        }        
+        stage ('PushToRepo') {
+            steps {
+                script {
+                    sh "docker push ${env.IMAGE_NAME}:${env.GIT_COMMIT}"
+
+                }
+            }
+        }
+
+    }
+    post {
+        success {
+            echo "Build successful"     
+        }
+        failure {
+            echo "Build failed"   
+        }
+        always {
+            echo "Thank You"   
+
         }
     }
 }

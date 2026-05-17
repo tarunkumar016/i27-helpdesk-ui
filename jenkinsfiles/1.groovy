@@ -1,0 +1,50 @@
+pipeline {
+    agent {
+        label "nodename"
+    }
+    environment {
+        DOCKER_REPOSITORY = '24tarunkumar215/helpdeskui'
+        DOCKER_REGISTRY = 'docker.io'
+        IMAGE_NAME = env.DOCKER_REGISTRY + "/" + env.DOCKER_REPOSITORY
+        DOCKER_CREDS = credentials('docker-creds-id') 
+    }
+    stages {
+        stage ('Image-build-stage') {
+            steps {
+                script {
+                    sh "docker build -t ${env.IMAGE_NAME}:${env.GIT_COMMIT} ."
+
+                }
+            }
+        }
+        stage ('DockerLogin Stage') {
+            steps {
+                script{
+                    sh "docker login -u ${env.DOCKER_CREDS_USR} -p ${env.DOCKER_CREDS_PSW}"
+                }
+
+            }
+        }        
+        stage ('PushToRepo') {
+            steps {
+                script {
+                    sh "docker push ${env.IMAGE_NAME}:${env.GIT_COMMIT}"
+
+                }
+            }
+        }
+
+    }
+    post {
+        success {
+            echo "Build successful"     
+        }
+        failure {
+            echo "Build failed"   
+        }
+        always {
+            echo "Thank You"   
+
+        }
+    }
+}
