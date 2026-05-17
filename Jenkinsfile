@@ -13,8 +13,8 @@ pipeline {
             steps {
                 script {
                     env.IMAGE_NAME = env.DOCKER_REGISTRY + "/" + env.DOCKER_REPOSITORY
-                    sh "docker build -t ${env.IMAGE_NAME}:${env.GIT_COMMIT} ."
-                    sh "docker run -d -p 3000:3000 ${env.IMAGE_NAME}:${env.GIT_COMMIT}"
+                    sh "docker build -t ${IMAGE_NAME}:${GIT_COMMIT} ."
+                    sh "docker run -d -p 3000:3000 ${IMAGE_NAME}:${GIT_COMMIT}"
 
                 }
             }
@@ -22,7 +22,7 @@ pipeline {
         stage ('DockerLogin Stage') {
             steps {
                 script{
-                    sh "docker login -u ${env.DOCKER_CREDS_USR} -p ${env.DOCKER_CREDS_PSW}"
+                    sh "docker login -u ${DOCKER_CREDS_USR} -p ${DOCKER_CREDS_PSW}"
                 }
 
             }
@@ -30,7 +30,7 @@ pipeline {
         stage ('PushToRepo') {
             steps {
                 script {
-                    sh "docker push ${env.IMAGE_NAME}:${env.GIT_COMMIT}"
+                    sh "docker push ${IMAGE_NAME}:${GIT_COMMIT}"
 
                 }
             }
@@ -45,7 +45,7 @@ pipeline {
             echo "Build failed"   
         }
         always {
-            echo "Thank You"   
+            cleamWs()   
 
         }
     }
