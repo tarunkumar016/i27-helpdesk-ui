@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label "nodename"
+        label "k8s-slave-jenkisn-"
     }
     environment {
         DOCKER_REPOSITORY = '24tarunkumar215/helpdeskui'
